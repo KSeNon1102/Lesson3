@@ -1,0 +1,128 @@
+using System;
+using System.Linq;
+
+namespace LessonDev
+{
+class ProgramLesson2
+{
+static void Main(string[] args)
+{
+Questions(1);
+if(Select())
+{
+var sumCr = SumCredite();
+var procent = ProcentCredite();
+Calculate(sumCr, procent);
+}
+else
+{
+SquareСircle();
+}
+
+Console.ReadLine();
+}
+
+static void SquareСircle()
+{
+Questions(5);
+if (double.TryParse(Console.ReadLine(), out double d))
+{
+var ans = 3.14 * d * d;
+PrintAnswer(string.Format("Площадь круга: {0:F}", ans));
+return;
+}
+Questions(0);
+SquareСircle();
+}
+
+static bool Select()
+{
+Questions(4);
+if (int.TryParse(Console.ReadLine(), out int i))
+{
+if(i==1)
+{
+return true;
+}
+else if(i==2)
+{
+return false;
+}
+Questions(0);
+return Select();
+}
+Questions(0);
+return Select();
+}
+static void Calculate(decimal sum, float procent)
+{
+var mainDebtperMonth = sum / 12;
+decimal[] arraySumPay = new decimal[12];
+PrintAnswer("Выплаты по месяцам:");
+for(int i=12; i > 0; i--)
+{
+decimal sumperMonth = mainDebtperMonth + (mainDebtperMonth * i) * (decimal)procent / 1200;
+arraySumPay.SetValue(sumperMonth, 12-i);
+PrintAnswer(string.Format("{0} месяц: {1:F} руб.", (13 - i).ToString(), sumperMonth));
+}
+PrintAnswer(string.Format("Общая сумма составит: {0:F} руб.", arraySumPay.ToList().Sum()));
+
+}
+
+static void PrintAnswer(string print)
+{
+Console.WriteLine(print);
+}
+
+
+static decimal SumCredite()
+{
+Questions(2);
+if (!decimal.TryParse(Console.ReadLine(), out decimal sumCredite))
+{
+Questions(0);
+sumCredite = SumCredite(); 
+}
+
+return sumCredite;
+}
+
+static float ProcentCredite()
+{
+Questions(3);
+if (!float.TryParse(Console.ReadLine(), out float pCredite))
+{
+Questions(0);
+pCredite = ProcentCredite();
+}
+return pCredite;
+}
+
+static void Questions(int numQuestion)
+{
+var hour = DateTime.Now.Hour;
+switch (numQuestion)
+{
+case 1:
+Console.WriteLine("Добр{0}{1}{2}{3}!", hour >= 0 && hour <8 ? "ой ночи": string.Empty, hour >= 8 && hour < 11 ? "ое утро" : string.Empty,
+hour >= 11 && hour < 19 ? "ый день" : string.Empty, hour >= 19 && hour < 24 ? "ый вечер" : string.Empty);
+
+break;
+case 2:
+Console.WriteLine("Введите сумму кредита:");
+break;
+case 3:
+Console.WriteLine("Введите проценты по кредиту:");
+break;
+case 4:
+Console.WriteLine("Выбирите 1. Учет процентов или 2. Подсчет площади круга");
+break;
+case 5:
+Console.WriteLine("Введите радиус круга:");
+break;
+default:
+Console.WriteLine("Введенные данные не корректны!!!");
+break;
+}
+}
+}
